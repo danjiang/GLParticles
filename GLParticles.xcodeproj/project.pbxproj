@@ -19,6 +19,7 @@
 		40CEEC8B21465E9100495813 /* ShaderProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEEC8A21465E9100495813 /* ShaderProcessor.m */; };
 		40CEEC8F21467DC200495813 /* texture_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CEEC8E21467DC200495813 /* texture_32.png */; };
 		40CEEC92214693C000495813 /* EmitterObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEEC91214693C000495813 /* EmitterObject.m */; };
+		40CEEC952147B13400495813 /* texture_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 40CEEC942147B13400495813 /* texture_64.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +34,7 @@
 		40CEEC7721464C0400495813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40CEEC7821464C0400495813 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		40CEEC82214653B400495813 /* Emitter.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = Emitter.vsh; sourceTree = "<group>"; };
-		40CEEC84214653EB00495813 /* Emitter.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Emitter.fsh; sourceTree = "<group>"; };
+		40CEEC84214653EB00495813 /* Emitter.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = Emitter.fsh; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.glsl; };
 		40CEEC8621465CEE00495813 /* EmitterShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmitterShader.h; sourceTree = "<group>"; };
 		40CEEC8721465CEE00495813 /* EmitterShader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmitterShader.m; sourceTree = "<group>"; };
 		40CEEC8921465E9100495813 /* ShaderProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderProcessor.h; sourceTree = "<group>"; };
@@ -41,7 +42,7 @@
 		40CEEC8E21467DC200495813 /* texture_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture_32.png; sourceTree = "<group>"; };
 		40CEEC90214693C000495813 /* EmitterObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmitterObject.h; sourceTree = "<group>"; };
 		40CEEC91214693C000495813 /* EmitterObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmitterObject.m; sourceTree = "<group>"; };
-		40CEEC93214760C400495813 /* EmitterTemplate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmitterTemplate.h; sourceTree = "<group>"; };
+		40CEEC942147B13400495813 /* texture_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture_64.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +75,7 @@
 		40CEEC6821464C0200495813 /* GLParticles */ = {
 			isa = PBXGroup;
 			children = (
+				40CEEC942147B13400495813 /* texture_64.png */,
 				40CEEC8E21467DC200495813 /* texture_32.png */,
 				40CEEC6921464C0200495813 /* AppDelegate.h */,
 				40CEEC6A21464C0200495813 /* AppDelegate.m */,
@@ -92,7 +94,6 @@
 				40CEEC8A21465E9100495813 /* ShaderProcessor.m */,
 				40CEEC90214693C000495813 /* EmitterObject.h */,
 				40CEEC91214693C000495813 /* EmitterObject.m */,
-				40CEEC93214760C400495813 /* EmitterTemplate.h */,
 			);
 			path = GLParticles;
 			sourceTree = "<group>";
@@ -154,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40CEEC952147B13400495813 /* texture_64.png in Resources */,
 				40CEEC8F21467DC200495813 /* texture_32.png in Resources */,
 				40CEEC83214653B400495813 /* Emitter.vsh in Resources */,
 				40CEEC7621464C0400495813 /* LaunchScreen.storyboard in Resources */,

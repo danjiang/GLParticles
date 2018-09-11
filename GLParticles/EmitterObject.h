@@ -14,9 +14,10 @@
 @property (nonatomic, assign) GLKVector2 gravity;
 @property (nonatomic, assign) float life;
 @property (nonatomic, assign) float time;
+@property (nonatomic, assign) GLuint particleBuffer;
 
-- (id)initEmitterObject;
+- (id)initWithTexture:(NSString *)fileName at:(GLKVector2)position;
 - (void)renderWithProjection:(GLKMatrix4)projectionMatrix;
-- (void)updateLifeCycle:(float)timeElapsed;
+- (BOOL)updateLifeCycle:(float)timeElapsed;
 
 @end

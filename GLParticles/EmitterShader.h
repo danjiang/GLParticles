@@ -13,14 +13,25 @@
 
 @property (nonatomic, assign) GLint program;
 
-@property (nonatomic, assign) GLint aTheta;
-@property (nonatomic, assign) GLint aShade;
+@property (nonatomic, assign) GLint a_pID;
+@property (nonatomic, assign) GLint a_pRadiusOffset;
+@property (nonatomic, assign) GLint a_pVelocityOffset;
+@property (nonatomic, assign) GLint a_pDecayOffset;
+@property (nonatomic, assign) GLint a_pSizeOffset;
+@property (nonatomic, assign) GLint a_pColorOffset;
 
-@property (nonatomic, assign) GLint uProjectionMatrix;
-@property (nonatomic, assign) GLint uK;
-@property (nonatomic, assign) GLint uColor;
-@property (nonatomic, assign) GLint uTime;
-@property (nonatomic, assign) GLint uTexture;
+@property (nonatomic, assign) GLint u_ProjectionMatrix;
+@property (nonatomic, assign) GLint u_Gravity;
+@property (nonatomic, assign) GLint u_Time;
+@property (nonatomic, assign) GLint u_eRadius;
+@property (nonatomic, assign) GLint u_eVelocity;
+@property (nonatomic, assign) GLint u_eDecay;
+@property (nonatomic, assign) GLint u_eSizeStart;
+@property (nonatomic, assign) GLint u_eSizeEnd;
+@property (nonatomic, assign) GLint u_eColorStart;
+@property (nonatomic, assign) GLint u_eColorEnd;
+@property (nonatomic, assign) GLint u_Texture;
+@property (nonatomic, assign) GLint u_ePosition;
 
 - (void)loadShader;
 

@@ -7,16 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "EmitterTemplate.h"
-#import "EmitterShader.h"
+#import "EmitterObject.h"
 
 @interface ViewController ()
 
-@property (nonatomic, strong) EmitterShader *emitterShader;
-
-@property (nonatomic, assign) float timeCurrent;
-@property (nonatomic, assign) float timeMax;
-@property (nonatomic, assign) float timeDirection;
+@property (nonatomic, strong) NSMutableArray *emitters;
 
 @end
 
@@ -31,23 +26,25 @@
     GLKView *view = (GLKView *)self.view;
     view.context = context;
     
-    self.timeCurrent = 0.0f;
-    self.timeMax = 3.0f;
-    self.timeDirection = 1.0f;
-    
-    [self loadTexture:@"texture_32.png"];
-    [self loadShader];
-    [self loadParticles];
-    [self loadEmitter];
+    self.emitters = [NSMutableArray array];
 }
 
 - (void)update {
-    if (self.timeCurrent > self.timeMax) {
-        self.timeDirection = -1;
-    } else if (self.timeCurrent < 0.0f) {
-        self.timeDirection = 1;
+    if ([self.emitters count] != 0) {
+        NSMutableArray *deadEmitters = [NSMutableArray array];
+        
+        for (EmitterObject *emitter in self.emitters) {
+            BOOL alive = [emitter updateLifeCycle:self.timeSinceLastUpdate];
+            
+            if (!alive) {
+                [deadEmitters addObject:emitter];
+            }
+        }
+        
+        for (EmitterObject *emitter in deadEmitters) {
+            [self.emitters removeObject:emitter];
+        }
     }
-    self.timeCurrent += self.timeDirection * self.timeSinceLastUpdate;
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
@@ -60,64 +57,23 @@
     float aspectRatio = view.frame.size.width / view.frame.size.height;
     GLKMatrix4 projectionMatrix = GLKMatrix4MakeScale(1.0f, aspectRatio, 1.0f);
     
-    glUniformMatrix4fv(self.emitterShader.uProjectionMatrix, 1, 0, projectionMatrix.m);
-    glUniform1f(self.emitterShader.uK, emitter.k);
-    glUniform3f(self.emitterShader.uColor, emitter.color[0], emitter.color[1], emitter.color[2]);
-    glUniform1f(self.emitterShader.uTime, self.timeCurrent / self.timeMax);
-
-    glEnableVertexAttribArray(self.emitterShader.aTheta);
-    glVertexAttribPointer(self.emitterShader.aTheta, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)(offsetof(Particle, theta)));
-    glEnableVertexAttribArray(self.emitterShader.aShade);
-    glVertexAttribPointer(self.emitterShader.aShade, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (void*)(offsetof(Particle, shade)));
-
-    glDrawArrays(GL_POINTS, 0, NUM_PARTICLES);
-    glDisableVertexAttribArray(self.emitterShader.aTheta);
-    glDisableVertexAttribArray(self.emitterShader.aShade);
-}
-
-- (void)loadParticles {
-    for (int i = 0; i < NUM_PARTICLES; i++) {
-        emitter.particles[i].theta = GLKMathDegreesToRadians(i);
-        emitter.particles[i].shade[0] = [self randomFloatBetween:-0.25f and:0.25f];
-        emitter.particles[i].shade[1] = [self randomFloatBetween:-0.25f and:0.25f];
-        emitter.particles[i].shade[2] = [self randomFloatBetween:-0.25f and:0.25f];
+    if ([self.emitters count] != 0) {
+        for (EmitterObject *emitter in self.emitters) {
+            [emitter renderWithProjection:projectionMatrix];
+        }
     }
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    CGPoint touchPoint = [touches.anyObject locationInView:self.view];
+    CGPoint glPoint = CGPointMake(touchPoint.x / self.view.frame.size.width, touchPoint.y / self.view.frame.size.height);
     
-    GLuint particleBuffer = 0;
-    glGenBuffers(1, &particleBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, particleBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(emitter.particles), emitter.particles, GL_STATIC_DRAW);
-}
-
-- (void)loadEmitter {
-    emitter.k = 4.0f;
-    emitter.color[0] = 0.76f;   // Color: R
-    emitter.color[1] = 0.12f;   // Color: G
-    emitter.color[2] = 0.34f;   // Color: B
-}
-
-- (void)loadShader {
-    self.emitterShader = [EmitterShader new];
-    [self.emitterShader loadShader];
-    glUseProgram(self.emitterShader.program);
-}
-
-- (float)randomFloatBetween:(float)min and:(float)max {
-    float range = max - min;
-    return (((float) (arc4random() % ((unsigned)RAND_MAX + 1)) / RAND_MAX) * range) + min;
-}
-
-- (void)loadTexture:(NSString *)fileName {
-    NSDictionary *options = @{@YES: GLKTextureLoaderOriginBottomLeft};
+    float aspectRatio = self.view.frame.size.width / self.view.frame.size.height;
+    float x = (glPoint.x * 2.0f) - 1.0f;
+    float y = ((glPoint.y * 2.0f) - 1.0f) * (-1.0f / aspectRatio);
     
-    NSError *error;
-    NSString *path = [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
-    GLKTextureInfo *texture = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    if (texture == nil) {
-        NSLog(@"Error loading file: %@", [error localizedDescription]);
-    }
-    
-    glBindTexture(GL_TEXTURE_2D, texture.name);
+    EmitterObject *emitter = [[EmitterObject alloc] initWithTexture:@"texture_64.png" at:GLKVector2Make(x, y)];
+    [self.emitters addObject:emitter];
 }
 
 @end
